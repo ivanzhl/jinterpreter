@@ -7,7 +7,7 @@ public enum TokenType {
     COMMA,
     DO,
     ELSE,
-    EOF,
+    END_OF_FILE,
     EQUALS,
     FALSE,
     FUN,
