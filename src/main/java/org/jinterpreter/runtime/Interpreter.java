@@ -43,14 +43,14 @@ public class Interpreter {
     }
 
     private Object evaluateAssignment(Node.Assign node, Environment environment) {
-        Object value = evaluate(node.value(), environment);
+        final Object value = evaluate(node.value(), environment);
         environment.setVariable(node.name(), value);
         return value;
     }
 
     private Object evaluateBinaryOperation(Node.BinaryOperation node, Environment environment) {
-        double left = toNumber(evaluate(node.left(), environment));
-        double right = toNumber(evaluate(node.right(), environment));
+        final double left  = toNumber(evaluate(node.left(), environment));
+        final double right = toNumber(evaluate(node.right(), environment));
         return switch (node.operator()) {
             case "+" -> left + right;
             case "-" -> left - right;
@@ -61,16 +61,16 @@ public class Interpreter {
             }
             case "==" -> booleanToNumber(left == right);
             case "!=" -> booleanToNumber(left != right);
-            case "<" -> booleanToNumber(left < right);
+            case "<"  -> booleanToNumber(left < right);
             case "<=" -> booleanToNumber(left <= right);
-            case ">" -> booleanToNumber(left > right);
+            case ">"  -> booleanToNumber(left > right);
             case ">=" -> booleanToNumber(left >= right);
             default -> throw new InterpreterException("unknown operator '" + node.operator() + "'");
         };
     }
 
     private Object evaluateIf(Node.If node, Environment environment) {
-        Object condition = evaluate(node.condition(), environment);
+        final Object condition = evaluate(node.condition(), environment);
         if (isTruthy(condition)) return evaluate(node.thenBranch(), environment);
         else return evaluate(node.elseBranch(), environment);
     }
@@ -92,26 +92,26 @@ public class Interpreter {
     }
 
     private Object evaluateFunctionDefinition(Node.Fun node, Environment environment) {
-        JFunction function = new JFunction(node.name(), node.parameters(), node.body());
+        final JFunction function = new JFunction(node.name(), node.parameters(), node.body());
         environment.setVariable(node.name(), function);
         return function;
     }
 
     private Object evaluateFunctionCall(Node.Call node, Environment environment) {
-        Object found = environment.getVariable(node.name());
+        final Object found = environment.getVariable(node.name());
         if (!(found instanceof JFunction(String name, List<String> parameters, Node body)))
             throw new InterpreterException("'" + node.name() + "' is not a function");
 
-        List<Node> arguments = node.arguments();
+        final List<Node> arguments = node.arguments();
         if (arguments.size() != parameters.size())
             throw new InterpreterException("function '" + name + "' expects " + parameters.size() + " arguments but got " + arguments.size());
 
         if (++callDepth > MAX_CALL_DEPTH)
             throw new InterpreterException("maximum call depth exceeded");
 
-        Environment functionEnvironment = new Environment(environment);
+        final Environment functionEnvironment = new Environment(environment);
         for (int i = 0; i < parameters.size(); i++) {
-            Object value = evaluate(arguments.get(i), environment);
+            final Object value = evaluate(arguments.get(i), environment);
             functionEnvironment.setVariable(parameters.get(i), value);
         }
 
@@ -119,8 +119,7 @@ public class Interpreter {
             evaluate(body, functionEnvironment);
         } catch (ReturnException returnValue) {
             return returnValue.getValue();
-        }
-        finally {
+        } finally {
             callDepth--;
         }
 

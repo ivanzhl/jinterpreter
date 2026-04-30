@@ -11,11 +11,11 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            String source = new String(System.in.readAllBytes());
+            final String source = new String(System.in.readAllBytes());
 
-            List<Token> tokens = new Scanner(source).scan();
-            List<Node> program = new Parser(tokens).parse();
-            Environment environment = new Interpreter().run(program);
+            final List<Token> tokens = new Scanner(source).scan();
+            final List<Node> program = new Parser(tokens).parse();
+            final Environment environment = new Interpreter().run(program);
 
             environment.getAllVariables().forEach((name, value) -> {
                 if (value instanceof JFunction) return;

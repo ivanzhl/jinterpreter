@@ -6,4 +6,3 @@ public class ScannerException extends RuntimeException {
         super("line " + line + ": " + message);
     }
 }
-

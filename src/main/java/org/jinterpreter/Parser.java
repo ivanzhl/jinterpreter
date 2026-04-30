@@ -81,7 +81,7 @@ public class Parser {
 
     private Node parseAssignment() {
         if (isCurrentTokenOfType(TokenType.IDENTIFIER) && isNextTokenOfType(TokenType.ASSIGN)) {
-            String name = advance().text();
+            final String name = advance().text();
             advance();
             return new Node.Assign(name, parseExpression());
         }
@@ -125,8 +125,8 @@ public class Parser {
     private Node parseExpression() {
         Node left = parseAdditionOrSubtraction();
         while (isCurrentTokenComparisonOperator()) {
-            String operator = advance().text();
-            Node right = parseAdditionOrSubtraction();
+            final String operator = advance().text();
+            final Node right = parseAdditionOrSubtraction();
             left = new Node.BinaryOperation(operator, left, right);
         }
         return left;
@@ -144,8 +144,8 @@ public class Parser {
     private Node parseAdditionOrSubtraction() {
         Node left = parseMultiplicationOrDivision();
         while (isCurrentTokenOfType(TokenType.PLUS) || isCurrentTokenOfType(TokenType.MINUS)) {
-            String operator = advance().text();
-            Node right = parseMultiplicationOrDivision();
+            final String operator = advance().text();
+            final Node right = parseMultiplicationOrDivision();
             left = new Node.BinaryOperation(operator, left, right);
         }
         return left;
@@ -154,8 +154,8 @@ public class Parser {
     private Node parseMultiplicationOrDivision() {
         Node left = parsePrimaryExpression();
         while (isCurrentTokenOfType(TokenType.STAR) || isCurrentTokenOfType(TokenType.SLASH)) {
-            String operator = advance().text();
-            Node right = parsePrimaryExpression();
+            final String operator = advance().text();
+            final Node right = parsePrimaryExpression();
             left = new Node.BinaryOperation(operator, left, right);
         }
         return left;
@@ -187,7 +187,7 @@ public class Parser {
     }
 
     private Node parseIdentifierOrFunctionCall() {
-        String name = advance().text();
+        final String name = advance().text();
         if (isCurrentTokenOfType(TokenType.PAREN_OPEN))
             return parseFunctionCall(name);
         return new Node.Identifier(name);
@@ -195,13 +195,13 @@ public class Parser {
 
     private Node parseFunctionCall(String name) {
         advance();
-        List<Node> arguments = parseArgumentList();
+        final List<Node> arguments = parseArgumentList();
         expectToken(TokenType.PAREN_CLOSE, "')'");
         return new Node.Call(name, arguments);
     }
 
     private List<Node> parseArgumentList() {
-        List<Node> arguments = new ArrayList<>();
+        final List<Node> arguments = new ArrayList<>();
         if (!isCurrentTokenOfType(TokenType.PAREN_CLOSE)) {
             arguments.add(parseExpression());
             while (isCurrentTokenOfType(TokenType.COMMA)) {
@@ -214,7 +214,7 @@ public class Parser {
 
     private Node parseGroupedExpression() {
         advance();
-        Node expression = parseExpression();
+        final Node expression = parseExpression();
         expectToken(TokenType.PAREN_CLOSE, "')'");
         return expression;
     }

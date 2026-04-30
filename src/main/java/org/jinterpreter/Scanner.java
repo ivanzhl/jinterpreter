@@ -40,7 +40,7 @@ public class Scanner {
     }
 
     private void scanNextToken() {
-        char c = advance();
+        final char c = advance();
         switch (c) {
             case '('             -> addToken(TokenType.PAREN_OPEN);
             case ')'             -> addToken(TokenType.PAREN_CLOSE);
@@ -102,7 +102,7 @@ public class Scanner {
 
     private void scanIdentifierOrKeyword() {
         while (!reachedEndOfInput() && isLetterOrDigit(currentChar())) advance();
-        String word = input.substring(tokenStart, currentPosition);
+        final String word = input.substring(tokenStart, currentPosition);
         addToken(KEYWORDS.getOrDefault(word, TokenType.IDENTIFIER));
     }
 
@@ -116,8 +116,8 @@ public class Scanner {
         return input.charAt(currentPosition++);
     }
 
-    private boolean nextCharIs(char expectedChat) {
-        if (reachedEndOfInput() || input.charAt(currentPosition) != expectedChat) return false;
+    private boolean nextCharIs(char expected) {
+        if (reachedEndOfInput() || input.charAt(currentPosition) != expected) return false;
         currentPosition++;
         return true;
     }
