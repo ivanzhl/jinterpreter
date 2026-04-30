@@ -5,12 +5,11 @@ import org.jinterpreter.runtime.Environment;
 import org.jinterpreter.runtime.Interpreter;
 import org.jinterpreter.runtime.JFunction;
 
-import java.io.IOException;
 import java.util.List;
 
 public class Main {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         try {
             String source = new String(System.in.readAllBytes());
 

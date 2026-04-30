@@ -95,7 +95,7 @@ public class Parser {
             advance();
             statements.add(parseNestedStatement());
         }
-        if (statements.size() == 1) return statements.get(0);
+        if (statements.size() == 1) return statements.getFirst();
         return new Node.Block(statements);
     }
 
