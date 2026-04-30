@@ -13,7 +13,7 @@ public enum TokenType {
     FUN,
     GREATER_THAN,
     GREATER_THAN_OR_EQUAL,
-    IDENT,
+    IDENTIFIER,
     IF,
     LESS_THAN,
     LESS_THAN_OR_EQUAL,

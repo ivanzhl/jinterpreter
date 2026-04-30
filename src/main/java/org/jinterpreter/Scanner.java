@@ -1,5 +1,7 @@
 package org.jinterpreter;
 
+import org.jinterpreter.exceptions.ScannerException;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +103,7 @@ public class Scanner {
     private void scanIdentifierOrKeyword() {
         while (!reachedEndOfInput() && isLetterOrDigit(currentChar())) advance();
         String word = input.substring(tokenStart, currentPosition);
-        addToken(KEYWORDS.getOrDefault(word, TokenType.IDENT));
+        addToken(KEYWORDS.getOrDefault(word, TokenType.IDENTIFIER));
     }
 
     private void skipWhitespace() {}
